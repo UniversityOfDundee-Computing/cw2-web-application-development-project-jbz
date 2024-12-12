@@ -9,16 +9,78 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="styles/mainstyles.css" />
-    <title>Our Website</title>
+    <title>Weather Based Music App</title>
   </head>
   <body>
     <div class="container-fluid mainContainer">
-      <h1 id="head">Website under construction</h1>
-      <div
-        class="spinner-border text-primary"
-        style="width: 5rem; height: 5rem"
-        role="status"
-      ></div>
+      <!-- Header Section -->
+      <header role="banner">
+        <h1>Weather Based Music App</h1>
+        <div>
+          <nav class="navbar navbar-expand-lg bg-body-tertiary" role="navigation">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#" aria-label="Go to Home">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#features" aria-label="Explore Features">Features</a>
+                </li>
+              </ul>
+          </nav>
+        </div>
+      </header>
+
+      <!-- Hero Section -->
+      <section id="hero_section" class="text-center">
+        <div>
+          <h2>Playlists Tailored to Your Weather</h2>
+          <p>Discover playlists that resonates with the current weather and your vibe.</p>
+          <a class="btn btn-primary" id="get_started" href="#weather_section" role="button">
+            Get Started
+          </a>
+        </div>
+      </section>
+        <!-- Input Section -->
+        <section id="weather_section" class="py-4">
+          <div class="weather-grid d-flex justify-content-center p-3">
+            <div class="weather-item p-3">
+              <label for="city_input" class="form-label">Enter your city:</label>
+              <input type="text" id="city_input" class="form-control" placeholder="City name"/>
+              <button class="btn btn-primary mt-2" id="fetch_weather">Get Playlist</button>
+            </div>
+            <div class="weather-item p-3">
+              <div id="weather_info" aria-live="polite"></div> <!--to display weather info dynamically -->
+            </div>
+          </div>      
+        </section>
+    
+        <!-- Features Section -->
+        <section id="features">
+          <h2>Features</h2>
+          <div class="features-grid">
+            <div class="feature-item">
+              <h3>Mood-Based Playlists</h3>
+              <p>Get playlists tailored to your current mood.</p>
+            </div>
+            <div class="feature-item">
+              <h3>Activity Suggestions</h3>
+              <p>Pair music with activities like relaxing, working, or socializing.</p>
+            </div>
+          </div>
+        </section>
+    
+        <!-- Playlist Section -->
+        <section id="playlist_section">
+          <h2>Recommended Playlists</h2>
+          <div class="playlists-grid" id="playlist_section" aria-live="polite">
+            <!-- Playlists will be dynamically added here -->
+          </div>
+        </section>
+    
+        <!-- Footer Section -->
+        <footer class="text-center p-3" role="contentinfo">
+          <p>&copy; 2024 Weather Based Music App. All rights reserved.</p>
+        </footer>
     </div>
 
     <!-- Scripts -->
