@@ -8,7 +8,7 @@ body {
   flex-direction: column;
   /* justify-content: center;
   align-items: center; */
-  height: 100%;
+  height: auto;
 }
 
 /* h1 {
@@ -48,7 +48,7 @@ header {
 /* Hero Section */
 #hero_section {
   text-align: center;
-  height: 700px;
+  height: 650px;
   padding: 2rem;
   background: url('/assets/herobg.gif') no-repeat center/cover;
   color: rgb(235, 110, 43);
@@ -72,9 +72,9 @@ header {
 }
 
 /* Input Section */
-input + button{
+/*input + button{
   padding: 0.7rem 1.5rem;
-}
+}*/
 
 #fetch_weather{
   padding: 0.7rem 1.5rem;
