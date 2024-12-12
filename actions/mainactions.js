@@ -2,6 +2,110 @@ const OPENWEATHER_API_KEY = "a0140f98c00df8d5ca8c165d523a5806";
 const SPOTIFY_CLIENT_ID = "c70162eaa3ea4f8986e41d1394c25d2a";
 const SPOTIFY_CLIENT_SECRET = "5033c19b13b947a58087f70d22c52e81";
 
+// Map weather conditions to moods
+const weatherToMood = {
+    //Clear Weather
+    Clear: [
+      "happy",       
+      "energetic",  
+      "adventurous", 
+      "motivated",
+    ],
+    //Rainy Weather
+    Rain: [
+      "sad", 
+      "nostalgic",  
+      "romantic", 
+      "calm", 
+    ],
+    //Cloudy
+    Clouds: [
+      "chill",       
+      "thoughtful",
+      "focused",
+      "creative",
+    ],
+    //Snowy weather
+    Snow: [
+      "calm",       
+      "playful",
+      "cozy",
+      "reflective",
+    ],
+    //thunderstorms
+    Thunderstorm: [
+      "energetic",
+      "empowered",
+      "mysterious",
+      "rebellious",
+    ],
+    //drizzle
+    Drizzle: [
+      "relaxing",
+      "romantic",
+      "nostalgic",
+      "tranquil", 
+    ],
+    //Foggy
+    Fog: [
+      "meditative",  
+      "mysterious",
+      "creative", 
+      "focused", 
+    ],
+   
+    //Windy
+    Wind: [
+      "restless",    
+      "energized",
+      "thoughtful",
+      "inspired", 
+    ],
+   
+    //hazy
+    Haze: [
+      "dreamy",
+      "subdued",
+      "mellow",
+      "mystical",
+    ],
+    //Hot
+    Hot: [
+      "happy",
+      "lazy", 
+      "cheerful", 
+      "adventurous", 
+    ],
+   
+    //Cold
+    Cold: [
+      "cozy", 
+      "focused", 
+      "introspective",
+      "peaceful",
+    ],
+   
+    //Misty
+    Mist: [
+      "mysterious",
+      "calm", 
+      "thoughtful", 
+      "dreamy", 
+    ],
+   
+    //Overcast
+    Overcast: [
+      "low-energy",  
+      "chill", 
+      "focused",
+      "creative",
+    ],
+  };
+
+  const weatherAliases = {
+    Frosty: "Cold", 
+  };
+
 // Fetch weather data
 async function fetchWeather(city) {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPENWEATHER_API_KEY}`;
@@ -107,20 +211,42 @@ sentimentForm.addEventListener("submit", async (event) => {
 
   // Get the value of the query input field
   const queryInput = document.getElementById("moodQuery").value;
+  if (!queryInput) {
+    alert("Please enter a mood query.");
+    return;
+  }
 
-  query({
-    inputs: queryInput,
-  }).then((response) => {
-    const results = response[0].filter((res) => res.score > 0.005);
-    console.log(results[0]);
+  try {
+    const sentimentResponse = await query({ inputs: queryInput });
+    const results = sentimentResponse[0].filter((res) => res.score > 0.005);
 
-    fetchPlaylists(results[0]?.label);
-  });
+    if (results.length === 0) {
+      alert("No significant mood detected. Please try again.");
+      return;
+    }
+
+    const mood = results[0]?.label; // The most significant mood label
+    console.log(`Detected Mood: ${mood}`);
+
+    // Fetch and display playlists for the mood
+    const playlists = await fetchPlaylists(mood);
+    displayPlaylists(playlists);
+
+    // Scroll to the playlist section
+    const playlistSection = document.getElementById("playlist_section");
+    playlistSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (error) {
+    console.error("Error processing mood query:", error.message);
+    alert(
+      "An error occurred while processing your mood query. Please try again."
+    );
+  }
 });
 
 // Display playlists in the UI
 function displayPlaylists(playlists) {
-  const playlistSection = document.getElementById("playlist-section");
+  console.log("displayPlaylists >>> ");
+  const playlistSection = document.getElementById("playlists-grid");
   playlistSection.innerHTML = "";
 
   if (!playlists || playlists.length === 0) {
@@ -154,17 +280,6 @@ function displayPlaylists(playlists) {
   });
 }
 
-// Map weather conditions to moods
-const weatherToMood = {
-    Clear: "happy",
-    Rain: "sad",
-    Clouds: "chill",
-    Snow: "calm",
-    Thunderstorm: "energetic",
-    Drizzle: "relaxing",
-    Fog: "meditating",
-};
-
 // Main Event Listener
 const fetchWeatherButton = document.getElementById("fetch_weather");
 fetchWeatherButton.addEventListener("click", async () => {
@@ -176,14 +291,18 @@ fetchWeatherButton.addEventListener("click", async () => {
   try {
     const weatherData = await fetchWeather(city);
     const weatherCondition = weatherData.weather[0].main;
-    const mood = weatherToMood[weatherCondition] || "happy";
+    
+    const moods = weatherToMood[weatherCondition] || "happy";   //getting a random mood from the weather condition
+    const mood = moods[Math.floor(Math.random() * moods.length)]; //picking only one mood now
+
     updateBackground(weatherCondition);
-    document.getElementById("weather_info").innerHTML = 
-    `<h3>Weather: ${weatherCondition}</h3>
+    document.getElementById(
+      "weather_info"
+    ).innerHTML = `<h3>Weather: ${weatherCondition}</h3>
     <p>Mood: ${mood}</p>`;
 
-    const playlistSection = document.getElementById('playlist_section');    
-    playlistSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Scroll to the top of the playlist section
+    const playlistSection = document.getElementById("playlist_section");
+    playlistSection.scrollIntoView({ behavior: "smooth", block: "start" }); // Scroll to the top of the playlist section
 
     const playlists = await fetchPlaylists(mood);
     displayPlaylists(playlists);
@@ -191,3 +310,9 @@ fetchWeatherButton.addEventListener("click", async () => {
     alert(`Error: ${error.message}`);
   }
 });
+   
+function getMoodForWeather(weatherCondition) {
+    const condition = weatherAliases[weatherCondition] || weatherCondition;
+    const moods = weatherToMood[condition] || ["neutral"];
+    return moods[Math.floor(Math.random() * moods.length)];
+}
