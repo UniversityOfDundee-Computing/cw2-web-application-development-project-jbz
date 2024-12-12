@@ -82,3 +82,39 @@ async function fetchPlaylists(mood) {
   const shuffled = filtered.sort(() => 0.5 - Math.random());
   return shuffled.slice(0, 10); // Return top 10 randomized playlists
 }
+
+// Display playlists in the UI
+function displayPlaylists(playlists) {
+  const playlistSection = document.getElementById("playlist-section");
+  playlistSection.innerHTML = "";
+
+  if (!playlists || playlists.length === 0) {
+    playlistSection.innerHTML = `<p>No playlists found for the selected mood.</p>`;
+    return;
+  }
+
+  playlists.forEach((playlist) => {
+    if (
+      !playlist ||
+      !playlist.images ||
+      !playlist.name ||
+      !playlist.external_urls
+    ) {
+      console.warn("Skipping invalid playlist:", playlist);
+      return;
+    }
+
+    const card = document.createElement("div");
+    card.className = "playlist-card";
+    card.innerHTML = `
+      <img src="${playlist.images[0]?.url || ""}" alt="${
+      playlist.name || "Playlist"
+    }">
+      <h4>${playlist.name || "Unknown Playlist"}</h4>
+      <a href="${
+        playlist.external_urls?.spotify || "#"
+      }" target="_blank">Listen on Spotify</a>
+    `;
+    playlistSection.appendChild(card);
+  });
+}

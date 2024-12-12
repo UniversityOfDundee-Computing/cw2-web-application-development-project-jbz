@@ -25,7 +25,7 @@ header {
 }
 
 /* NavBar */
-.navbar{
+.navbar {
   background-color: yellow !important;
   height: 100%;
 }
@@ -50,7 +50,7 @@ header {
   text-align: center;
   height: 650px;
   padding: 2rem;
-  background: url('../assets/herobg.gif') no-repeat center/cover;
+  background: url("../assets/herobg.gif") no-repeat center/cover;
   color: rgb(235, 110, 43);
 }
 
@@ -62,7 +62,7 @@ header {
   font-size: 1.2rem;
 }
 
-#hero_section #get_started{
+#hero_section #get_started {
   margin-top: 1rem;
   padding: 0.7rem 1.5rem;
   background: #a100fe;
@@ -76,7 +76,7 @@ header {
   padding: 0.7rem 1.5rem;
 }*/
 
-#fetch_weather{
+#fetch_weather {
   padding: 0.7rem 1.5rem;
   background: #a5fe00;
   border: none;
@@ -101,6 +101,42 @@ header {
   padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 8px;
+}
+
+/* Playlist Section */
+#playlist_section {
+  padding: 2rem;
+}
+
+.playlists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.playlist-card {
+  background: white;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.playlist-card img {
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+.playlist-card h3 {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.playlist-card a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #4facfe;
+  text-decoration: none;
 }
 
 /* Footer */
