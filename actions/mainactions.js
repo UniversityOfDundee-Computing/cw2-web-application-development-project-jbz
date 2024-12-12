@@ -107,19 +107,41 @@ sentimentForm.addEventListener("submit", async (event) => {
 
   // Get the value of the query input field
   const queryInput = document.getElementById("moodQuery").value;
+  if (!queryInput) {
+    alert("Please enter a mood query.");
+    return;
+  }
 
-  query({
-    inputs: queryInput,
-  }).then((response) => {
-    const results = response[0].filter((res) => res.score > 0.005);
-    console.log(results[0]);
+  try {
+    const sentimentResponse = await query({ inputs: queryInput });
+    const results = sentimentResponse[0].filter((res) => res.score > 0.005);
 
-    fetchPlaylists(results[0]?.label);
-  });
+    if (results.length === 0) {
+      alert("No significant mood detected. Please try again.");
+      return;
+    }
+
+    const mood = results[0]?.label; // The most significant mood label
+    console.log(`Detected Mood: ${mood}`);
+
+    // Fetch and display playlists for the mood
+    const playlists = await fetchPlaylists(mood);
+    displayPlaylists(playlists);
+
+    // Scroll to the playlist section
+    const playlistSection = document.getElementById("playlist_section");
+    playlistSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (error) {
+    console.error("Error processing mood query:", error.message);
+    alert(
+      "An error occurred while processing your mood query. Please try again."
+    );
+  }
 });
 
 // Display playlists in the UI
 function displayPlaylists(playlists) {
+  console.log("displayPlaylists >>> ");
   const playlistSection = document.getElementById("playlists-grid");
   playlistSection.innerHTML = "";
 
