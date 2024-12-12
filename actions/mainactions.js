@@ -1,5 +1,33 @@
+const OPENWEATHER_API_KEY = "a0140f98c00df8d5ca8c165d523a5806";
 const SPOTIFY_CLIENT_ID = "c70162eaa3ea4f8986e41d1394c25d2a";
 const SPOTIFY_CLIENT_SECRET = "5033c19b13b947a58087f70d22c52e81";
+
+// Fetch weather data
+async function fetchWeather(city) {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPENWEATHER_API_KEY}`;
+    const response = await fetch(url);
+    const data = await response.json();
+  
+    if (response.status !== 200) {
+      throw new Error(data.message || "Failed to fetch weather data");
+    }
+  
+    return data;
+}
+
+// Change background based on weather
+function updateBackground(condition) {
+    const body = document.body;
+    const heroSection = document.getElementById("weather_section"); //hero_section
+  
+    // Clear existing classes
+    body.className = "";
+    heroSection.className = "";
+  
+    // Add weather-specific classes
+    const weatherClass = `weather-${condition.toLowerCase()}`;
+    body.classList.add(weatherClass);
+    heroSection.classList.add(weatherClass);
 
 // Get Spotify access token
 async function getSpotifyToken() {
@@ -52,4 +80,5 @@ async function fetchPlaylists(mood) {
   // Randomize the filtered results and return the first 10
   const shuffled = filtered.sort(() => 0.5 - Math.random());
   return shuffled.slice(0, 10); // Return top 10 randomized playlists
+
 }
