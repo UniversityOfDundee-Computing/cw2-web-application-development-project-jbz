@@ -102,3 +102,11 @@ input + button{
   border: 1px solid #ddd;
   border-radius: 8px;
 }
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: linear-gradient(90deg, #00f2fe, #4facfe);
+  color: white;
+}
