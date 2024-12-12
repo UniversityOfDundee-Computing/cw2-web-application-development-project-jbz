@@ -83,3 +83,22 @@ input + button{
   color: rgb(222, 54, 194);
   cursor: pointer;
 }
+
+/* Features Section */
+#features {
+  padding: 2rem;
+  background: #f9f9f9;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.feature-item {
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
