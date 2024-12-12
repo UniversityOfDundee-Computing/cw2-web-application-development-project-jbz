@@ -36,12 +36,25 @@
         <div class="container">
           <h2>Weather Influenced Playlists</h2> <!--need to put some apt heading here -->
           <p>Discover playlists that match your weather and vibe.</p>
-          <a class="btn btn-primary" id="get_started" href="#" role="button">
+          <a class="btn btn-primary" id="get_started" href="#weather_section" role="button">
             Get Started
           </a>
         </div>
       </section>
     </div>
+
+    <!-- Input Section -->
+    <section id="weather_section">
+      <div class="weather-grid d-flex justify-content-center p-3">
+        <div class="weather-item p-3">
+          <input type="text" id="city_input" placeholder="Enter city name"/>
+          <button class="btn btn-primary" id="fetch_weather">Get Playlist</button>
+        </div>
+        <div class="weather-item p-3">
+          <div id="weather_info"></div> <!--to display weather info -->
+        </div>
+      </div>      
+    </section>
 
     <!-- Scripts -->
     <script

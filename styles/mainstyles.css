@@ -70,3 +70,16 @@ header {
   color: white;
   cursor: pointer;
 }
+
+/* Input Section */
+input + button{
+  padding: 0.7rem 1.5rem;
+}
+
+#fetch_weather{
+  padding: 0.7rem 1.5rem;
+  background: #a5fe00;
+  border: none;
+  color: rgb(222, 54, 194);
+  cursor: pointer;
+}
