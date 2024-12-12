@@ -118,3 +118,41 @@ function displayPlaylists(playlists) {
     playlistSection.appendChild(card);
   });
 }
+
+// Map weather conditions to moods
+const weatherToMood = {
+    Clear: "happy",
+    Rain: "sad",
+    Clouds: "chill",
+    Snow: "calm",
+    Thunderstorm: "energetic",
+    Drizzle: "relaxing",
+    Fog: "meditating",
+};
+
+// Main Event Listener
+const fetchWeatherButton = document.getElementById("fetch_weather");
+fetchWeatherButton.addEventListener("click", async () => {
+  const city = document.getElementById("city_input").value;
+  if (!city) {
+    alert("Please enter a city.");
+    return;
+  }
+  try {
+    const weatherData = await fetchWeather(city);
+    const weatherCondition = weatherData.weather[0].main;
+    const mood = weatherToMood[weatherCondition] || "happy";
+    updateBackground(weatherCondition);
+    document.getElementById("weather_info").innerHTML = 
+    `<h3>Weather: ${weatherCondition}</h3>
+    <p>Mood: ${mood}</p>`;
+
+    const playlistSection = document.getElementById('playlist_section');    
+    playlistSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Scroll to the top of the playlist section
+
+    const playlists = await fetchPlaylists(mood);
+    displayPlaylists(playlists);
+  } catch (error) {
+    alert(`Error: ${error.message}`);
+  }
+});
