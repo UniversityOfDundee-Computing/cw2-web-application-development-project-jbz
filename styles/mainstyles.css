@@ -103,6 +103,42 @@ header {
   border-radius: 8px;
 }
 
+/* Playlist Section */
+#playlist_section {
+  padding: 2rem;
+}
+
+.playlists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.playlist-card {
+  background: white;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.playlist-card img {
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+.playlist-card h3 {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.playlist-card a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #4facfe;
+  text-decoration: none;
+}
+
 /* Footer */
 footer {
   text-align: center;
