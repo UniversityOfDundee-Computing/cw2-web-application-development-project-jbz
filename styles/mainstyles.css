@@ -146,3 +146,64 @@ footer {
   background: linear-gradient(90deg, #00f2fe, #4facfe);
   color: white;
 }
+
+/* Weather Themed Body Backgrounds */
+.weather-clear {
+  background: linear-gradient(90deg, #ffe259, #ffa751);
+}
+
+.weather-rain {
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+}
+
+.weather-clouds {
+  background: linear-gradient(90deg, #d3d3d3, #808080);
+}
+
+.weather-snow {
+  background: linear-gradient(90deg, #e6f7ff, #ffffff);
+}
+
+.weather-thunderstorm {
+  background: linear-gradient(90deg, #232526, #414345);
+}
+
+.weather-drizzle {
+  background: linear-gradient(90deg, #89f7fe, #66a6ff);
+}
+
+/* Weather Section Backgrounds */
+#weather_section {
+  height: 300px;
+}
+#weather_section.weather-clear {
+  background: url('../assets/clearweather.gif') no-repeat center/cover;
+}
+
+#weather_section.weather-sunny {
+  background: url('../assets/sunnyweather.gif') no-repeat center/cover;
+}
+
+#weather_section.weather-rain {
+  background: url('../assets/raining.gif') no-repeat center/cover;
+}
+
+#weather_section.weather-clouds {
+  background: url('../assets/cloudyweather.gif') no-repeat center/cover;
+}
+
+#weather_section.weather-snow {
+  background: url('../assets/snowing.gif') no-repeat center/cover;
+}
+
+#weather_section.weather-thunderstorm {
+  background: url('../assets/thunderstorm.gif') no-repeat center/cover;
+}
+
+#weather_section.weather-drizzle {
+  background: url('../assets/drizzly.gif') no-repeat center/cover;
+}
+
+#weather_section.weather-haze {
+  background: url('../assets/foggy.gif') no-repeat center/cover;
+}
