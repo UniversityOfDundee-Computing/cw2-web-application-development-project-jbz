@@ -120,7 +120,7 @@ sentimentForm.addEventListener("submit", async (event) => {
 
 // Display playlists in the UI
 function displayPlaylists(playlists) {
-  const playlistSection = document.getElementById("playlist-section");
+  const playlistSection = document.getElementById("playlists-grid");
   playlistSection.innerHTML = "";
 
   if (!playlists || playlists.length === 0) {
@@ -156,13 +156,13 @@ function displayPlaylists(playlists) {
 
 // Map weather conditions to moods
 const weatherToMood = {
-    Clear: "happy",
-    Rain: "sad",
-    Clouds: "chill",
-    Snow: "calm",
-    Thunderstorm: "energetic",
-    Drizzle: "relaxing",
-    Fog: "meditating",
+  Clear: "happy",
+  Rain: "sad",
+  Clouds: "chill",
+  Snow: "calm",
+  Thunderstorm: "energetic",
+  Drizzle: "relaxing",
+  Fog: "meditating",
 };
 
 // Main Event Listener
@@ -178,12 +178,13 @@ fetchWeatherButton.addEventListener("click", async () => {
     const weatherCondition = weatherData.weather[0].main;
     const mood = weatherToMood[weatherCondition] || "happy";
     updateBackground(weatherCondition);
-    document.getElementById("weather_info").innerHTML = 
-    `<h3>Weather: ${weatherCondition}</h3>
+    document.getElementById(
+      "weather_info"
+    ).innerHTML = `<h3>Weather: ${weatherCondition}</h3>
     <p>Mood: ${mood}</p>`;
 
-    const playlistSection = document.getElementById('playlist_section');    
-    playlistSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Scroll to the top of the playlist section
+    const playlistSection = document.getElementById("playlist_section");
+    playlistSection.scrollIntoView({ behavior: "smooth", block: "start" }); // Scroll to the top of the playlist section
 
     const playlists = await fetchPlaylists(mood);
     displayPlaylists(playlists);
