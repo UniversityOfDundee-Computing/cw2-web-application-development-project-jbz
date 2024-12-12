@@ -2,6 +2,110 @@ const OPENWEATHER_API_KEY = "a0140f98c00df8d5ca8c165d523a5806";
 const SPOTIFY_CLIENT_ID = "c70162eaa3ea4f8986e41d1394c25d2a";
 const SPOTIFY_CLIENT_SECRET = "5033c19b13b947a58087f70d22c52e81";
 
+// Map weather conditions to moods
+const weatherToMood = {
+    //Clear Weather
+    Clear: [
+      "happy",       
+      "energetic",  
+      "adventurous", 
+      "motivated",
+    ],
+    //Rainy Weather
+    Rain: [
+      "sad", 
+      "nostalgic",  
+      "romantic", 
+      "calm", 
+    ],
+    //Cloudy
+    Clouds: [
+      "chill",       
+      "thoughtful",
+      "focused",
+      "creative",
+    ],
+    //Snowy weather
+    Snow: [
+      "calm",       
+      "playful",
+      "cozy",
+      "reflective",
+    ],
+    //thunderstorms
+    Thunderstorm: [
+      "energetic",
+      "empowered",
+      "mysterious",
+      "rebellious",
+    ],
+    //drizzle
+    Drizzle: [
+      "relaxing",
+      "romantic",
+      "nostalgic",
+      "tranquil", 
+    ],
+    //Foggy
+    Fog: [
+      "meditative",  
+      "mysterious",
+      "creative", 
+      "focused", 
+    ],
+   
+    //Windy
+    Wind: [
+      "restless",    
+      "energized",
+      "thoughtful",
+      "inspired", 
+    ],
+   
+    //hazy
+    Haze: [
+      "dreamy",
+      "subdued",
+      "mellow",
+      "mystical",
+    ],
+    //Hot
+    Hot: [
+      "happy",
+      "lazy", 
+      "cheerful", 
+      "adventurous", 
+    ],
+   
+    //Cold
+    Cold: [
+      "cozy", 
+      "focused", 
+      "introspective",
+      "peaceful",
+    ],
+   
+    //Misty
+    Mist: [
+      "mysterious",
+      "calm", 
+      "thoughtful", 
+      "dreamy", 
+    ],
+   
+    //Overcast
+    Overcast: [
+      "low-energy",  
+      "chill", 
+      "focused",
+      "creative",
+    ],
+  };
+
+  const weatherAliases = {
+    Frosty: "Cold", 
+  };
+
 // Fetch weather data
 async function fetchWeather(city) {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPENWEATHER_API_KEY}`;
@@ -176,17 +280,6 @@ function displayPlaylists(playlists) {
   });
 }
 
-// Map weather conditions to moods
-const weatherToMood = {
-  Clear: "happy",
-  Rain: "sad",
-  Clouds: "chill",
-  Snow: "calm",
-  Thunderstorm: "energetic",
-  Drizzle: "relaxing",
-  Fog: "meditating",
-};
-
 // Main Event Listener
 const fetchWeatherButton = document.getElementById("fetch_weather");
 fetchWeatherButton.addEventListener("click", async () => {
@@ -198,7 +291,10 @@ fetchWeatherButton.addEventListener("click", async () => {
   try {
     const weatherData = await fetchWeather(city);
     const weatherCondition = weatherData.weather[0].main;
-    const mood = weatherToMood[weatherCondition] || "happy";
+    
+    const moods = weatherToMood[weatherCondition] || "happy";   //getting a random mood from the weather condition
+    const mood = moods[Math.floor(Math.random() * moods.length)]; //picking only one mood now
+
     updateBackground(weatherCondition);
     document.getElementById(
       "weather_info"
@@ -214,3 +310,9 @@ fetchWeatherButton.addEventListener("click", async () => {
     alert(`Error: ${error.message}`);
   }
 });
+   
+function getMoodForWeather(weatherCondition) {
+    const condition = weatherAliases[weatherCondition] || weatherCondition;
+    const moods = weatherToMood[condition] || ["neutral"];
+    return moods[Math.floor(Math.random() * moods.length)];
+}
