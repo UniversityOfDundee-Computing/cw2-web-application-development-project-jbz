@@ -44,3 +44,29 @@ header {
   border-bottom: 2px solid red;
   transition: all 0.5s;
 }
+
+/* Hero Section */
+#hero_section {
+  text-align: center;
+  height: 700px;
+  padding: 2rem;
+  background: url('/assets/herobg.gif') no-repeat center/cover;
+  color: rgb(235, 110, 43);
+}
+
+#hero_section h2 {
+  font-size: 2.5rem;
+}
+
+#hero_section p {
+  font-size: 1.2rem;
+}
+
+#hero_section #get_started{
+  margin-top: 1rem;
+  padding: 0.7rem 1.5rem;
+  background: #a100fe;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
