@@ -50,7 +50,7 @@ header {
   text-align: center;
   height: 650px;
   padding: 2rem;
-  background: url('/assets/herobg.gif') no-repeat center/cover;
+  background: url('assets/herobg.gif') no-repeat center/cover;
   color: rgb(235, 110, 43);
 }
 
