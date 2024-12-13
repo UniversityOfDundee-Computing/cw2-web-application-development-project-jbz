@@ -8,7 +8,7 @@
 
 # Weather-Based Music Application
 
-This project is a weather based music application developed by a team of three members. The application dynamically fetches weather data and curates music playlists tailored to the weather conditions and user moods. It integrates the **OpenWeather API** for weather data and the **Spotify API** for playlist generation.
+This project is a weather-based music and events application developed by our team of three members. The application dynamically fetches weather data, curates music playlists tailored to weather conditions and user moods, and suggests local events happening within a user-defined radius. It integrates the **OpenWeather API**, **Spotify API**, **Ticketmaster API**, and **Hugging Face GoEmotions** to deliver a highly personalised and engaging experience.
 
 ## Features
 
@@ -24,9 +24,11 @@ This project is a weather based music application developed by a team of three m
 - Users can explicitly search playlists by telling how they feel (e.g., I feel low today) in the provided search bar.
 - The application analyses the mood and fetches playlists aligned with the user's input.
 
-### 3. **Activity Suggestions**
+### 3. **Event Suggestions**
 
-- The application provides suggestions for activities that pair well with the current weather, enhancing the user's experience.
+- The application integrates the Ticketmaster API to fetch events happening within a specified radius of the user's location.
+- Events are tailored to the user's current weather condition using weather-based keywords and location-based queries.
+- It displays events happening nearby, helping users plan ahead while staying relevant to seasonal activities.
 
 ### 4. **Dynamic Backgrounds**
 
@@ -46,6 +48,10 @@ This project is a weather based music application developed by a team of three m
   - Provides weather information such as temperature, conditions (Rain, Clear, etc.), and location-specific data.
 - **Spotify API**:
   - Retrieves playlists based on the mood derived from the weather conditions or user input.
+- **Ticketmaster API**:
+  - Fetches location-based events using latitude, longitude, radius, and weather-based keywords.
+- **Hugging Face GoEmotions API**:
+  - Detects emotions from user-submitted text and maps them to relevant moods for playlist generation.  
 
 ## How It Works
 
@@ -64,10 +70,19 @@ This project is a weather based music application developed by a team of three m
 - The application maps the detected mood to a Spotify playlist query.
 - It uses the **Spotify API** to fetch playlists related to the mood.
 
-### **4. Displaying Results**
+### **4. Mood-Based Search**
 
-- Weather details and the selected mood are displayed dynamically.
-- Curated playlists are presented in a responsive grid layout.
+- Uses the Hugging Face GoEmotions model to detect emotions from user-submitted text.
+- Fetches Spotify playlists aligned with the identified mood.
+
+### **5. Event Recommendations**
+
+- Uses the user's latitude and longitude to query the Ticketmaster API.
+- Tailors event suggestions based on location.
+
+### **6. Displaying Results**
+
+- Weather details, playlists, and event suggestions are displayed dynamically in a visually engaging, responsive layout.
 
 ## References
 
