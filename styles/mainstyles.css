@@ -1,87 +1,117 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   width: 100%;
   height: 100%;
 }
 
+.btn_custom {
+  margin-top: 1rem;
+  padding: 0.7rem 1.5rem;
+  background: #7e1891;
+  border: none;
+  color: white !important;
+  cursor: pointer;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  border-radius: 2rem;
+}
+
 .mainContainer {
   display: flex;
   flex-direction: column;
-  /* justify-content: center;
-  align-items: center; */
   height: auto;
+  padding: 0;
 }
-
-/* h1 {
-  font-size: 5rem;
-} */
 
 /* Header */
 header {
-  background: linear-gradient(90deg, #4facfe, #00f2fe);
   padding: 1rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  /* background-color: red; */
 }
 
 /* NavBar */
 .navbar {
-  background-color: yellow !important;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
   height: 100%;
+  border-radius: 1.75rem;
+  padding: 0;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .nav-link {
-  color: rgb(92, 13, 13) !important;
+  color: white;
   font-size: 1rem;
   font-weight: 500;
-  border-bottom: 2px solid transparent;
+  border-radius: 1.75rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .nav-link:hover {
-  color: red !important;
+  color: white;
   font-size: 1rem;
   font-weight: 500;
-  border-bottom: 2px solid red;
+  background-color: rgb(235, 110, 43);
+  border-radius: 1.75rem;
   transition: all 0.5s;
 }
 
 /* Hero Section */
 #hero_section {
-  text-align: center;
-  height: 650px;
-  padding: 2rem;
+  height: 100vh;
+  width: 100%;
   background: url("../assets/herobg.gif") no-repeat center/cover;
   color: rgb(235, 110, 43);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-#hero_section h2 {
-  font-size: 2.5rem;
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 2rem;
+}
+
+#hero_section h1 {
+  font-size: 4.5rem;
+  font-family: "Bangers", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  max-width: 35rem;
+  text-align: left;
 }
 
 #hero_section p {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  max-width: 35rem;
+  text-align: left;
 }
 
 #hero_section #get_started {
   margin-top: 1rem;
   padding: 0.7rem 1.5rem;
-  background: #a100fe;
+  background: #7e1891;
   border: none;
   color: white;
   cursor: pointer;
-}
-
-/* Input Section */
-/*input + button{
-  padding: 0.7rem 1.5rem;
-}*/
-
-#fetch_weather {
-  padding: 0.7rem 1.5rem;
-  background: #a5fe00;
-  border: none;
-  color: rgb(222, 54, 194);
-  cursor: pointer;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  border-radius: 2rem;
 }
 
 /* Features Section */
@@ -106,6 +136,25 @@ header {
 /* Playlist Section */
 #playlist_section {
   padding: 2rem;
+  height: 100%;
+  min-height: 100vh;
+  background-color: #fa8bff;
+  background-image: linear-gradient(
+    45deg,
+    #fa8bff 0%,
+    #2bd2ff 52%,
+    #2bff88 90%
+  );
+}
+
+#playlist_section h2 {
+  font-size: 4.5rem;
+  font-family: "Bangers", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-align: left;
+  color: rgb(235, 110, 43);
+  margin-bottom: 2rem;
 }
 
 .playlists-grid {
@@ -114,22 +163,41 @@ header {
   gap: 1.5rem;
 }
 
+.playlists-grid h3 {
+  font-size: 2.5rem;
+  font-family: "Lato", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  color: rgb(235, 110, 43);
+  text-align: center;
+}
+
 .playlist-card {
-  background: white;
+  background-color: #ffe53b;
+  background-image: linear-gradient(147deg, #ffe53b 0%, #ff2525 74%);
   padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 8px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .playlist-card img {
   max-width: 100%;
   border-radius: 4px;
+  width: 100%;
+  height: 18rem;
+  object-fit: cover;
 }
 
-.playlist-card h3 {
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
+.playlist-card h4 {
+  font-size: 1.5rem;
+  margin: 1rem 2rem;
+  font-family: "Lato", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  color: white;
 }
 
 .playlist-card a {
@@ -137,6 +205,7 @@ header {
   margin-top: 0.5rem;
   color: #4facfe;
   text-decoration: none;
+  margin-top: auto;
 }
 
 /* Footer */
@@ -145,6 +214,7 @@ footer {
   padding: 1rem;
   background: linear-gradient(90deg, #00f2fe, #4facfe);
   color: white;
+  height: 5rem;
 }
 
 /* Weather Themed Body Backgrounds */
@@ -174,36 +244,152 @@ footer {
 
 /* Weather Section Backgrounds */
 #weather_section {
-  height: 300px;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
 }
+
+.weather-grid {
+  width: 100%;
+  height: 100%;
+}
+
+.weather-grid > .container > .row {
+  height: 100%;
+}
+
+.weather-grid > .container > .row > div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.weather-item {
+  width: 100%;
+  text-align: left;
+  z-index: 2;
+}
+
+.search_input_city {
+  min-width: 10rem;
+  /* neede to add breakpoints */
+}
+
+.weather_detail_left {
+  display: flex;
+  flex-direction: column;
+}
+
+.left_col {
+  position: relative;
+}
+
+.weather_detail_left::after {
+  content: "";
+  position: absolute;
+  top: 7rem;
+  left: 2rem;
+  width: 32rem;
+  height: 38rem;
+  display: block;
+  background-color: #ffc107;
+  transform: rotateZ(88deg);
+}
+
+#weather_info {
+  margin-top: 2rem;
+}
+
+#weather_info h3,
+p {
+  color: rgb(235, 110, 43);
+  color: white;
+  font-size: 1.75rem;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  line-height: 2rem;
+  text-align: left;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+#weather_info span {
+  color: white;
+  font-size: 2rem;
+  font-family: "Lato", sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 2rem;
+  text-align: left;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.city_input_lable {
+  color: rgb(235, 110, 43);
+  font-size: 4rem;
+  font-family: "Bangers", sans-serif;
+  font-weight: 700;
+  line-height: 4.75rem;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+#weather_section {
+  background-attachment: fixed;
+}
+
 #weather_section.weather-clear {
-  background: url('../assets/clearweather.gif') no-repeat center/cover;
+  background: url("../assets/clearweather.gif") no-repeat center/cover;
+  background-attachment: fixed;
 }
 
 #weather_section.weather-sunny {
-  background: url('../assets/sunnyweather.gif') no-repeat center/cover;
+  background: url("../assets/sunnyweather.gif") no-repeat center/cover;
+  background-attachment: fixed;
 }
 
 #weather_section.weather-rain {
-  background: url('../assets/raining.gif') no-repeat center/cover;
+  background: url("../assets/raining.gif") no-repeat center/cover;
+  background-attachment: fixed;
 }
 
 #weather_section.weather-clouds {
-  background: url('../assets/cloudyweather.gif') no-repeat center/cover;
+  background: url("../assets/cloudyweather.gif") no-repeat center/cover;
+  background-attachment: fixed;
 }
 
 #weather_section.weather-snow {
-  background: url('../assets/snowing.gif') no-repeat center/cover;
+  background: url("../assets/snowing.gif") no-repeat center/cover;
+  background-attachment: fixed;
 }
 
 #weather_section.weather-thunderstorm {
-  background: url('../assets/thunderstorm.gif') no-repeat center/cover;
+  background: url("../assets/thunderstorm.gif") no-repeat center/cover;
+  background-attachment: fixed;
 }
 
 #weather_section.weather-drizzle {
-  background: url('../assets/drizzly.gif') no-repeat center/cover;
+  background: url("../assets/drizzly.gif") no-repeat center/cover;
+  background-attachment: fixed;
 }
 
 #weather_section.weather-haze {
-  background: url('../assets/foggy.gif') no-repeat center/cover;
+  background: url("../assets/foggy.gif") no-repeat center/cover;
+  background-attachment: fixed;
+}
+
+.carousel_custom {
+  border-radius: 0.75rem;
+  box-shadow: 0 0 8px 8px white inset;
+}
+
+.carousel_custom > div {
+  border-radius: 0.75rem;
+  box-shadow: 0 0 8px 8px white inset;
 }

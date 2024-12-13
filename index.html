@@ -8,6 +8,16 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Bangers&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Bangers&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles/mainstyles.css" />
     <title>Weather Based Music App</title>
   </head>
@@ -15,35 +25,34 @@
     <div class="container-fluid mainContainer">
       <!-- Header Section -->
       <header role="banner">
-        <h1>Weather Based Music App</h1>
-        <div>
-          <nav
-            class="navbar navbar-expand-lg bg-body-tertiary"
-            role="navigation"
-          >
-            <ul class="nav">
-              <li class="nav-item">
-                <a class="nav-link active" href="#" aria-label="Go to Home"
-                  >Home</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  href="#features"
-                  aria-label="Explore Features"
-                  >Features</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </div>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" role="navigation">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link active" href="/" aria-label="Go to Home"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="#weather_section"
+                aria-label="Explore Features"
+                >Search</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#features" aria-label="Explore Features"
+                >Features</a
+              >
+            </li>
+          </ul>
+        </nav>
       </header>
 
       <!-- Hero Section -->
       <section id="hero_section" class="text-center">
-        <div>
-          <h2>Playlists Tailored to Your Weather</h2>
+        <div class="textBlock">
+          <h1>Playlists Tailored to Your Weather</h1>
           <p>
             Discover playlists that resonates with the current weather and your
             vibe.
@@ -58,24 +67,107 @@
           </a>
         </div>
       </section>
-      <!-- Input Section -->
-      <section id="weather_section" class="py-4">
-        <div class="weather-grid d-flex justify-content-center p-3">
-          <div class="weather-item p-3">
-            <label for="city_input" class="form-label">Enter your city:</label>
-            <input
-              type="text"
-              id="city_input"
-              class="form-control"
-              placeholder="City name"
-            />
-            <button class="btn btn-primary mt-2" id="fetch_weather">
-              Get Playlist
-            </button>
-          </div>
-          <div class="weather-item p-3">
-            <div id="weather_info" aria-live="polite"></div>
-            <!--to display weather info dynamically -->
+
+      <!-- Input Weather Section -->
+      <section id="weather_section">
+        <div class="weather-grid d-flex justify-content-center">
+          <div class="container text-center">
+            <div class="row">
+              <div class="col-12 col-md-5 left_col">
+                <div class="weather_detail_left">
+                  <!-- Display input for user insert city -->
+                  <div class="weather-item">
+                    <label for="city_input" class="city_input_lable"
+                      >Lets decide your mood by your city</label
+                    >
+                    <input
+                      type="text"
+                      id="city_input"
+                      class="form-control search_input_city"
+                      placeholder="City name"
+                    />
+                    <button class="btn btn_custom" id="fetch_weather">
+                      Get Playlist
+                    </button>
+                  </div>
+                  <!-- Displaying Current Weather Details block -->
+                  <div class="weather-item">
+                    <div id="weather_info" aria-live="polite"></div>
+                    <!--to display weather info dynamically -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-7">
+                <!-- Carousel -->
+                <div
+                  id="carouselFade"
+                  class="carousel slide carousel-fade w-100 carousel_custom"
+                  data-bs-ride="carousel"
+                >
+                  <div class="carousel-inner">
+                    <div class="carousel-item active w-100">
+                      <img
+                        src="/assets/clearweather.gif"
+                        class="d-block w-100 object-fit-cover"
+                        alt="..."
+                      />
+                    </div>
+                    <div class="carousel-item w-100">
+                      <img
+                        src="/assets/cloudyweather.gif"
+                        class="d-block w-100 object-fit-cover"
+                        alt="..."
+                      />
+                    </div>
+                    <div class="carousel-item w-100">
+                      <img
+                        src="/assets/drizzly.gif"
+                        class="d-block w-100 object-fit-cover"
+                        alt="..."
+                      />
+                    </div>
+                    <div class="carousel-item w-100">
+                      <img
+                        src="/assets/foggy.gif"
+                        class="d-block w-100 object-fit-cover"
+                        alt="..."
+                      />
+                    </div>
+                    <div class="carousel-item w-100">
+                      <img
+                        src="/assets/snowing.gif"
+                        class="d-block w-100 object-fit-cover"
+                        alt="..."
+                      />
+                    </div>
+                  </div>
+                  <!-- <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#carouselExampleFade"
+                    data-bs-slide="prev"
+                  >
+                    <span
+                      class="carousel-control-prev-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#carouselExampleFade"
+                    data-bs-slide="next"
+                  >
+                    <span
+                      class="carousel-control-next-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Next</span>
+                  </button> -->
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -118,6 +210,7 @@
       <section id="playlist_section">
         <h2>Recommended Playlists</h2>
         <div class="playlists-grid" id="playlists-grid" aria-live="polite">
+          <h3>Nothing to display yet</h3>
           <!-- Playlists will be dynamically added here -->
         </div>
       </section>
