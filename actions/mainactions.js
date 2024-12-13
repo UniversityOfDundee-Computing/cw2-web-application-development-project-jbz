@@ -40,6 +40,7 @@ const weatherToEventType = {
   Overcast: ["networking", "indoor sports", "workshop"],
 };
 
+// ------------------------------------------ API CALLS and HTML AUGMENTATONS --------------------------------------------//
 // Fetch weather data
 async function fetchWeather(city) {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPENWEATHER_API_KEY}`;
@@ -50,10 +51,12 @@ async function fetchWeather(city) {
     throw new Error(data.message || "Failed to fetch weather data");
   }
 
+  console.log("Data >>> ", data);
+
   return data;
 }
 
-// Change background based on weather
+// Change background based on weather (HTML CHANGES)
 function updateBackground(condition) {
   const body = document.body;
   const weatherSection = document.getElementById("weather_section");
@@ -73,7 +76,7 @@ function updateBackground(condition) {
   playListSection.style.backgroundColor = "transparent";
 }
 
-// Get Spotify access token
+// Get Spotify access token for every call (API CALL)
 async function getSpotifyToken() {
   const credentials = btoa(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`);
   const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -94,7 +97,7 @@ async function getSpotifyToken() {
   return data.access_token;
 }
 
-// Fetch random playlists from Spotify
+// Fetch random playlists from Spotify (API CALL)
 async function fetchPlaylists(mood) {
   const token = await getSpotifyToken();
   const response = await fetch(
@@ -332,10 +335,7 @@ fetchWeatherButton.addEventListener("click", async () => {
     const mood = moods[Math.floor(Math.random() * moods.length)]; //picking only one mood now
 
     updateBackground(weatherCondition);
-    document.getElementById(
-      "weather_info"
-    ).innerHTML = `<h3>Your weather: <span>${weatherCondition}</span></h3>
-    <p> Your mood: <span>${mood}</span></p>`;
+    displayWeatherDetails(weatherData);
 
     const playlistSection = document.getElementById("playlist_section");
     playlistSection.scrollIntoView({ behavior: "smooth", block: "start" }); // Scroll to the top of the playlist section
@@ -366,3 +366,44 @@ function getMoodForWeather(weatherCondition) {
   const moods = weatherToMood[condition] || ["neutral"];
   return moods[Math.floor(Math.random() * moods.length)];
 }
+
+//fetching weather details
+function displayWeatherDetails(weatherData) {
+  const weatherCondition = weatherData.weather[0].description;
+  const temperature = (weatherData.main.temp - 273.15).toFixed(1); // Convert Kelvin to Celsius
+  const feelsLike = (weatherData.main.feels_like - 273.15).toFixed(1); // Kelvin to Celsius
+  const humidity = weatherData.main.humidity;
+  const windSpeed = weatherData.wind.speed;
+
+  //upate the weather_info section
+  document.getElementById("weather_info").innerHTML = `
+    <h3>Weather Details</h3>
+    <ul>
+      <li><strong>Condition:</strong> ${weatherCondition}</li>
+      <li><strong>Temperature:</strong> ${temperature}°C</li>
+      <li><strong>Feels Like:</strong> ${feelsLike}°C</li>
+      <li><strong>Humidity:</strong> ${humidity}%</li>
+      <li><strong>Wind Speed:</strong> ${windSpeed} m/s</li>
+    </ul>
+  `;
+}
+
+// Scroll to top Actions
+const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+scrollToTopBtn.style.display = "none";
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 1200) {
+    scrollToTopBtn.style.display = "block";
+  } else {
+    scrollToTopBtn.style.display = "none";
+  }
+});
+
+scrollToTopBtn.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+});

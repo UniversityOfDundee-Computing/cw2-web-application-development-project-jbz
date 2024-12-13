@@ -18,6 +18,10 @@
       href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Bangers&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <link rel="stylesheet" href="styles/mainstyles.css" />
     <title>Weather Based Music App</title>
   </head>
@@ -25,7 +29,10 @@
     <div class="container-fluid mainContainer">
       <!-- Header Section -->
       <header role="banner">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" role="navigation">
+        <nav
+          class="navbar navbar-expand-lg bg-body-tertiary navbar_custom"
+          role="navigation"
+        >
           <ul class="nav">
             <li class="nav-item">
               <a class="nav-link active" href="./" aria-label="Go to Home"
@@ -52,13 +59,15 @@
       <!-- Hero Section -->
       <section id="hero_section" class="text-center">
         <div class="textBlock">
-          <h1>Playlists Tailored to Your Weather</h1>
-          <p>
+          <h1 class="animate__animated animate__fadeInDown">
+            Playlists Tailored to Your Weather
+          </h1>
+          <p class="animate__animated animate__fadeInDown">
             Discover playlists that resonates with the current weather and your
             vibe.
           </p>
           <a
-            class="btn btn-primary"
+            class="btn btn-primary animate__animated animate__fadeInDown"
             id="get_started"
             href="#weather_section"
             role="button"
@@ -77,14 +86,16 @@
                 <div class="weather_detail_left">
                   <!-- Display input for user insert city -->
                   <div class="weather-item">
-                    <label for="city_input" class="city_input_lable"
+                    <label
+                      for="city_input"
+                      class="city_input_lable animate__animated animate__fadeInUp"
                       >Lets decide your mood by your city</label
                     >
                     <input
                       type="text"
                       id="city_input"
                       class="form-control search_input_city"
-                      placeholder="City name"
+                      placeholder="Please enter your city"
                     />
                     <button class="btn btn_custom" id="fetch_weather">
                       Get Playlist
@@ -121,7 +132,7 @@
                     </div>
                     <div class="carousel-item w-100">
                       <img
-                        src="/assets/drizzly.gif"
+                        src="assets/drizzly.gif"
                         class="d-block w-100 object-fit-cover"
                         alt="..."
                       />
@@ -150,16 +161,22 @@
 
       <!-- Features Section -->
       <section id="features">
-        <h2>Features</h2>
-        <div class="features-grid">
+        <div class="svg_div">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path
+              fill="#ff5500"
+              fill-opacity="1"
+              d="M0,64L0,224L53.3,224L53.3,288L106.7,288L106.7,96L160,96L160,128L213.3,128L213.3,128L266.7,128L266.7,128L320,128L320,160L373.3,160L373.3,256L426.7,256L426.7,32L480,32L480,32L533.3,32L533.3,288L586.7,288L586.7,224L640,224L640,64L693.3,64L693.3,64L746.7,64L746.7,288L800,288L800,320L853.3,320L853.3,192L906.7,192L906.7,288L960,288L960,96L1013.3,96L1013.3,320L1066.7,320L1066.7,96L1120,96L1120,160L1173.3,160L1173.3,288L1226.7,288L1226.7,224L1280,224L1280,64L1333.3,64L1333.3,64L1386.7,64L1386.7,96L1440,96L1440,0L1386.7,0L1386.7,0L1333.3,0L1333.3,0L1280,0L1280,0L1226.7,0L1226.7,0L1173.3,0L1173.3,0L1120,0L1120,0L1066.7,0L1066.7,0L1013.3,0L1013.3,0L960,0L960,0L906.7,0L906.7,0L853.3,0L853.3,0L800,0L800,0L746.7,0L746.7,0L693.3,0L693.3,0L640,0L640,0L586.7,0L586.7,0L533.3,0L533.3,0L480,0L480,0L426.7,0L426.7,0L373.3,0L373.3,0L320,0L320,0L266.7,0L266.7,0L213.3,0L213.3,0L160,0L160,0L106.7,0L106.7,0L53.3,0L53.3,0L0,0L0,0Z"
+            ></path>
+          </svg>
+        </div>
+        <div class="text_div">
           <div class="feature-item">
-            <h3>Mood-Based Playlists</h3>
-            <p>Get playlists tailored to your current mood.</p>
-
+            <h3>Get playlists tailored to your current mood</h3>
             <form id="search-mood">
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label"
-                  >Enter your Mood</label
+                <label for="exampleInputPassword1" class="label_custom"
+                  >How are your feeling today?</label
                 >
                 <input
                   type="textarea"
@@ -168,7 +185,7 @@
                   class="form-control"
                 />
               </div>
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary btn_custom">
                 Search Playlist on my mood
               </button>
             </form>
@@ -192,6 +209,12 @@
           <!-- Playlists will be dynamically added here -->
         </div>
       </section>
+
+      <div class="scrollTopBtnDiv">
+        <button class="scrollTopBtn" id="scrollToTopBtn">
+          Scroll to top
+        </button>
+      </div>
 
       <!-- Footer Section -->
       <footer class="text-center p-3" role="contentinfo">
