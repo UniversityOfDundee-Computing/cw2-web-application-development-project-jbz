@@ -18,21 +18,16 @@ const weatherToMood = {
   Drizzle: ["relaxing", "romantic", "nostalgic", "tranquil"],
   //Foggy
   Fog: ["meditative", "mysterious", "creative", "focused"],
-
   //Windy
   Wind: ["restless", "energized", "thoughtful", "inspired"],
-
   //hazy
   Haze: ["dreamy", "subdued", "mellow", "mystical"],
   //Hot
   Hot: ["happy", "lazy", "cheerful", "adventurous"],
-
   //Cold
   Cold: ["cozy", "focused", "introspective", "peaceful"],
-
   //Misty
   Mist: ["mysterious", "calm", "thoughtful", "dreamy"],
-
   //Overcast
   Overcast: ["low-energy", "chill", "focused", "creative"],
 };
@@ -235,10 +230,7 @@ fetchWeatherButton.addEventListener("click", async () => {
     const mood = moods[Math.floor(Math.random() * moods.length)]; //picking only one mood now
 
     updateBackground(weatherCondition);
-    document.getElementById(
-      "weather_info"
-    ).innerHTML = `<h3>Your weather: <span>${weatherCondition}</span></h3>
-    <p> Your mood: <span>${mood}</span></p>`;
+    displayWeatherDetails(weatherData);
 
     const playlistSection = document.getElementById("playlist_section");
     playlistSection.scrollIntoView({ behavior: "smooth", block: "start" }); // Scroll to the top of the playlist section
@@ -258,4 +250,25 @@ function getMoodForWeather(weatherCondition) {
   const condition = weatherAliases[weatherCondition] || weatherCondition;
   const moods = weatherToMood[condition] || ["neutral"];
   return moods[Math.floor(Math.random() * moods.length)];
+}
+
+//fetching weather details
+function displayWeatherDetails(weatherData) {
+  const weatherCondition = weatherData.weather[0].description;
+  const temperature = (weatherData.main.temp - 273.15).toFixed(1); // Convert Kelvin to Celsius
+  const feelsLike = (weatherData.main.feels_like - 273.15).toFixed(1); // Kelvin to Celsius
+  const humidity = weatherData.main.humidity;
+  const windSpeed = weatherData.wind.speed;
+
+  //upate the weather_info section
+  document.getElementById("weather_info").innerHTML = `
+    <h3>Weather Details</h3>
+    <ul>
+      <li><strong>Condition:</strong> ${weatherCondition}</li>
+      <li><strong>Temperature:</strong> ${temperature}°C</li>
+      <li><strong>Feels Like:</strong> ${feelsLike}°C</li>
+      <li><strong>Humidity:</strong> ${humidity}%</li>
+      <li><strong>Wind Speed:</strong> ${windSpeed} m/s</li>
+    </ul>
+  `;
 }
