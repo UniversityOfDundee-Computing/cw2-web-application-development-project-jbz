@@ -1,44 +1,43 @@
 const OPENWEATHER_API_KEY = "a0140f98c00df8d5ca8c165d523a5806";
 const SPOTIFY_CLIENT_ID = "c70162eaa3ea4f8986e41d1394c25d2a";
 const SPOTIFY_CLIENT_SECRET = "5033c19b13b947a58087f70d22c52e81";
+const TICKETMASTER_API_KEY = "EqCGMuljDooDkdNAyDuNPWlvoKsTt9NV";
 
 // Map weather conditions to moods
 const weatherToMood = {
-  //Clear Weather
   Clear: ["happy", "energetic", "adventurous", "motivated"],
-  //Rainy Weather
   Rain: ["sad", "nostalgic", "romantic", "calm"],
-  //Cloudy
   Clouds: ["chill", "thoughtful", "focused", "creative"],
-  //Snowy weather
   Snow: ["calm", "playful", "cozy", "reflective"],
-  //thunderstorms
   Thunderstorm: ["energetic", "empowered", "mysterious", "rebellious"],
-  //drizzle
   Drizzle: ["relaxing", "romantic", "nostalgic", "tranquil"],
-  //Foggy
   Fog: ["meditative", "mysterious", "creative", "focused"],
-
-  //Windy
   Wind: ["restless", "energized", "thoughtful", "inspired"],
-
-  //hazy
   Haze: ["dreamy", "subdued", "mellow", "mystical"],
-  //Hot
   Hot: ["happy", "lazy", "cheerful", "adventurous"],
-
-  //Cold
   Cold: ["cozy", "focused", "introspective", "peaceful"],
-
-  //Misty
   Mist: ["mysterious", "calm", "thoughtful", "dreamy"],
-
-  //Overcast
   Overcast: ["low-energy", "chill", "focused", "creative"],
 };
 
 const weatherAliases = {
   Frosty: "Cold",
+};
+
+const weatherToEventType = {
+  Clear: ["outdoor", "festival", "sports", "concert"],
+  Rain: ["indoor", "theater", "museum"],
+  Clouds: ["workshop", "networking", "live music"],
+  Snow: ["holiday", "movie", "indoor"],
+  Thunderstorm: ["party", "music", "live performance"],
+  Drizzle: ["dinner", "gallery", "art"],
+  Fog: ["yoga", "meditation", "seminar"],
+  Wind: ["sports", "outdoor", "adventure"],
+  Haze: ["photography", "exhibition", "art"],
+  Hot: ["beach", "water", "festival"],
+  Cold: ["book club", "indoor", "cozy"],
+  Mist: ["mystery", "calm", "meditation"],
+  Overcast: ["networking", "indoor sports", "workshop"],
 };
 
 // Fetch weather data
@@ -168,6 +167,10 @@ sentimentForm.addEventListener("submit", async (event) => {
     const mood = results[0]?.label; // The most significant mood label
     console.log(`Detected Mood: ${mood}`);
 
+    // Clear the events grid when using the sentiment section
+    const eventsGrid = document.getElementById("events-grid");
+    eventsGrid.innerHTML = ""; // Clear any events displayed
+
     // Fetch and display playlists for the mood
     const playlists = await fetchPlaylists(mood);
     displayPlaylists(playlists);
@@ -182,6 +185,100 @@ sentimentForm.addEventListener("submit", async (event) => {
     );
   }
 });
+
+// Fetch Events
+async function fetchEvents(lat, lon, weatherType) {
+  const radius = 60; // Radius in miles
+  const keywords = weatherToEventType[weatherType] || ["events"];
+
+  const startDate = new Date().toISOString(); // Current date/time
+  const endDate = new Date(
+    Date.now() + 6 * 30 * 24 * 60 * 60 * 1000
+  ).toISOString();
+
+  const corsProxy = "https://cors-anywhere.herokuapp.com/";
+
+  for (const keyword of keywords) {
+    const url = `${corsProxy}https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TICKETMASTER_API_KEY}&latlong=${lat},${lon}&radius=${radius}&keyword=${keyword}&startDateTime=${startDate}&endDateTime=${endDate}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        console.warn(`HTTP error for keyword ${keyword}: ${response.status}`);
+        continue;
+      }
+      const data = await response.json();
+
+      if (data._embedded && data._embedded.events) {
+        console.log(`Events found for keyword: ${keyword}`);
+        return data._embedded.events.filter((event) => {
+          if (
+            !event.dates ||
+            !event.dates.start ||
+            !event.dates.start.dateTime
+          ) {
+            return false;
+          }
+          const eventDate = new Date(event.dates.start.dateTime).getTime();
+          const start = new Date(startDate).getTime();
+          const end = new Date(endDate).getTime();
+          return eventDate >= start && eventDate <= end;
+        });
+      }
+    } catch (error) {
+      console.error(
+        `Error fetching events for keyword ${keyword}:`,
+        error.message
+      );
+    }
+  }
+
+  console.warn("No specific events found. Falling back to 'events'.");
+  const fallbackUrl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TICKETMASTER_API_KEY}&latlong=${lat},${lon}&radius=${radius}&keyword=events`;
+  const fallbackResponse = await fetch(fallbackUrl);
+  const fallbackData = await fallbackResponse.json();
+
+  return fallbackData._embedded?.events || [];
+}
+
+// Display Events
+function displayEvents(events) {
+  console.log("Events to display: ", events);
+  const eventsGrid = document.getElementById("events-grid");
+  eventsGrid.innerHTML = ""; // Clear previous content
+
+  if (!events.length) {
+    eventsGrid.innerHTML = "<p>No events found for this location.</p>";
+    return;
+  }
+
+  // Create a scrollable container
+  const scrollContainer = document.createElement("div");
+  scrollContainer.className = "events-scroll-container";
+
+  events.forEach((event) => {
+    const eventCard = document.createElement("div");
+    eventCard.className = "event-card";
+    eventCard.innerHTML = `
+      <img src="${
+        event.images?.[0]?.url ||
+        "https://via.placeholder.com/300x200?text=No+Image"
+      }" alt="${event.name || "Event"}" class="event-image">
+      <h3>${event.name || "Unknown Event"}</h3>
+      <p>${
+        event.dates?.start?.dateTime
+          ? new Date(event.dates.start.dateTime).toLocaleString()
+          : "Date not available"
+      }</p>
+      <p>Location: ${event._embedded?.venues?.[0]?.name || "Unknown Venue"}</p>
+      <a href="${
+        event.url || "#"
+      }" target="_blank" class="btn_custom">More Info</a>
+    `;
+    eventsGrid.appendChild(eventCard);
+  });
+
+  eventsGrid.appendChild(scrollContainer);
+}
 
 // Display playlists in the UI
 function displayPlaylists(playlists) {
@@ -249,6 +346,16 @@ fetchWeatherButton.addEventListener("click", async () => {
 
     const playlists = await fetchPlaylists(mood);
     displayPlaylists(playlists);
+
+    // Fetch and Display Events
+    const lat = weatherData.coord.lat;
+    const lon = weatherData.coord.lon;
+    const events = await fetchEvents(lat, lon, weatherCondition);
+    displayEvents(events);
+
+    // Scroll to the Events Section
+    // const eventsSection = document.getElementById("events_section");
+    // eventsSection.scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (error) {
     alert(`Error: ${error.message}`);
   }
