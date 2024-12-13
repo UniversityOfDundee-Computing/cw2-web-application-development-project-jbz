@@ -17,6 +17,7 @@ body {
   font-family: "Lato", sans-serif;
   font-weight: 600;
   border-radius: 2rem;
+  width: auto;
 }
 
 .mainContainer {
@@ -46,6 +47,12 @@ header {
   border-radius: 1.75rem;
   padding: 0;
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar_custom {
+  width: "auto";
+  display: flex;
+  justify-content: center;
 }
 
 .nav-link {
@@ -83,6 +90,7 @@ header {
   justify-content: center;
   align-items: flex-start;
   padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 #hero_section h1 {
@@ -112,12 +120,69 @@ header {
   font-family: "Lato", sans-serif;
   font-weight: 600;
   border-radius: 2rem;
+  width: auto;
 }
 
 /* Features Section */
 #features {
   padding: 2rem;
   background: #f9f9f9;
+  position: relative;
+  height: 100vh;
+  background-color: #f4d03f;
+  background-image: linear-gradient(132deg, #f4d03f 0%, #16a085 100%);
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+}
+
+.svg_div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.text_div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.7px);
+  -webkit-backdrop-filter: blur(5.7px);
+}
+
+.feature-item h3 {
+  font-size: 4.5rem;
+  font-family: "Bangers", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  color: rgb(235, 110, 43);
+  text-align: center;
+  max-width: 50rem;
+  margin-top: 2rem;
+}
+
+.label_custom {
+  font-size: 1.5rem;
+  font-family: "Lato", sans-serif;
+  font-weight: 800;
+  color: white;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+#search-mood {
+  margin-bottom: 2rem;
 }
 
 .features-grid {
@@ -129,8 +194,6 @@ header {
 .feature-item {
   text-align: center;
   padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
 }
 
 /* Playlist Section */
@@ -214,7 +277,14 @@ footer {
   padding: 1rem;
   background: linear-gradient(90deg, #00f2fe, #4facfe);
   color: white;
-  height: 5rem;
+  text-align: center;
+}
+
+footer p {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: rgb(235, 110, 43);
 }
 
 /* Weather Themed Body Backgrounds */
@@ -392,4 +462,35 @@ p {
 .carousel_custom > div {
   border-radius: 0.75rem;
   box-shadow: 0 0 8px 8px white inset;
+}
+
+/* ------------------ Responsive Data based on breakpoints ------------------- */
+@media (max-width: 600px) {
+  /* ---- Header/Navbar Section ---- */
+  .navbar_custom {
+    width: "100%";
+  }
+
+  .btn_custom {
+    width: 100%;
+  }
+
+  #hero_section #get_started {
+    width: 100%;
+  }
+
+  /* ---- HeroSection Section ---- */
+  #hero_section p {
+    color: rgb(235, 110, 43);
+  }
+
+  /* ---- Weather Detail Section ---- */
+  .weather_detail_left::after {
+    display: none;
+  }
+
+  /* ---- Playlist Section ---- */
+  #playlist_section h2 {
+    font-size: 3rem;
+  }
 }

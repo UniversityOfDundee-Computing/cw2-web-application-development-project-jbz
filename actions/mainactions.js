@@ -41,6 +41,7 @@ const weatherAliases = {
   Frosty: "Cold",
 };
 
+// ------------------------------------------ API CALLS and HTML AUGMENTATONS --------------------------------------------//
 // Fetch weather data
 async function fetchWeather(city) {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPENWEATHER_API_KEY}`;
@@ -51,10 +52,12 @@ async function fetchWeather(city) {
     throw new Error(data.message || "Failed to fetch weather data");
   }
 
+  console.log("Data >>> ", data)
+
   return data;
 }
 
-// Change background based on weather
+// Change background based on weather (HTML CHANGES)
 function updateBackground(condition) {
   const body = document.body;
   const weatherSection = document.getElementById("weather_section");
@@ -74,7 +77,7 @@ function updateBackground(condition) {
   playListSection.style.backgroundColor = "transparent";
 }
 
-// Get Spotify access token
+// Get Spotify access token for every call (API CALL)
 async function getSpotifyToken() {
   const credentials = btoa(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`);
   const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -95,7 +98,7 @@ async function getSpotifyToken() {
   return data.access_token;
 }
 
-// Fetch random playlists from Spotify
+// Fetch random playlists from Spotify (API CALL)
 async function fetchPlaylists(mood) {
   const token = await getSpotifyToken();
   const response = await fetch(
