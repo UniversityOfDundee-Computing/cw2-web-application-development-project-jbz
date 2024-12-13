@@ -51,8 +51,6 @@ async function fetchWeather(city) {
     throw new Error(data.message || "Failed to fetch weather data");
   }
 
-  console.log("Data >>> ", data);
-
   return data;
 }
 
@@ -61,16 +59,13 @@ function updateBackground(condition) {
   const body = document.body;
   const weatherSection = document.getElementById("weather_section");
 
-  // Clear existing classes
   body.className = "";
   weatherSection.className = "";
 
-  // Add weather-specific classes
   const weatherClass = `weather-${condition.toLowerCase()}`;
   body.classList.add(weatherClass);
   weatherSection.classList.add(weatherClass);
 
-  // remove predefined backgrounds in section
   const playListSection = document.getElementById("playlist_section");
   playListSection.style.backgroundImage = "none";
   playListSection.style.backgroundColor = "transparent";
@@ -88,7 +83,6 @@ async function getSpotifyToken() {
     body: "grant_type=client_credentials",
   });
   const data = await response.json();
-  console.log("Spotify Token Response:", data);
 
   if (!data.access_token) {
     throw new Error("Failed to obtain Spotify API token");
@@ -109,10 +103,8 @@ async function fetchPlaylists(mood) {
     }
   );
   const data = await response.json();
-  console.log("Spotify API Response:", data);
 
   if (!data.playlists || !data.playlists.items) {
-    console.warn("No playlists found for the mood:", mood);
     return [];
   }
 
@@ -120,13 +112,13 @@ async function fetchPlaylists(mood) {
   const filtered = data.playlists.items.filter(
     (playlist) =>
       playlist &&
-      playlist.images.length > 0 && // Has an image
-      playlist.name.toLowerCase().includes(mood.toLowerCase()) // Name matches mood
+      playlist.images.length > 0 &&
+      playlist.name.toLowerCase().includes(mood.toLowerCase())
   );
 
   // Randomize the filtered results and return the first 10
   const shuffled = filtered.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, 10); // Return top 10 randomized playlists
+  return shuffled.slice(0, 10);
 }
 
 // Fetching Sentiments from API folder
@@ -144,6 +136,7 @@ async function query(data) {
       body: JSON.stringify(data),
     }
   );
+
   const result = await response.json();
   return result;
 }
@@ -167,22 +160,20 @@ sentimentForm.addEventListener("submit", async (event) => {
       return;
     }
 
-    const mood = results[0]?.label; // The most significant mood label
-    console.log(`Detected Mood: ${mood}`);
+    const mood = results[0]?.label;
 
-    // Clear the events grid when using the sentiment section
     const eventsGrid = document.getElementById("events-grid");
-    eventsGrid.innerHTML = ""; // Clear any events displayed
+    eventsGrid.innerHTML = "";
 
-    // Fetch and display playlists for the mood
+    const eventsSection = document.getElementById("events_section");
+    eventsSection.style.display = "none";
+
     const playlists = await fetchPlaylists(mood);
     displayPlaylists(playlists);
 
-    // Scroll to the playlist section
     const playlistSection = document.getElementById("playlist_section");
     playlistSection.scrollIntoView({ behavior: "smooth", top: 0 });
   } catch (error) {
-    console.error("Error processing mood query:", error.message);
     alert(
       "An error occurred while processing your mood query. Please try again."
     );
@@ -190,52 +181,8 @@ sentimentForm.addEventListener("submit", async (event) => {
 });
 
 // Fetch Events
-async function fetchEvents(lat, lon, weatherType) {
-  const radius = 60; // Radius in miles
-  const keywords = weatherToEventType[weatherType] || ["events"];
-
-  const startDate = new Date().toISOString(); // Current date/time
-  const endDate = new Date(
-    Date.now() + 6 * 30 * 24 * 60 * 60 * 1000
-  ).toISOString();
-
-  const corsProxy = "https://cors-anywhere.herokuapp.com/";
-
-  for (const keyword of keywords) {
-    const url = `${corsProxy}https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TICKETMASTER_API_KEY}&latlong=${lat},${lon}&radius=${radius}&keyword=${keyword}&startDateTime=${startDate}&endDateTime=${endDate}`;
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        console.warn(`HTTP error for keyword ${keyword}: ${response.status}`);
-        continue;
-      }
-      const data = await response.json();
-
-      if (data._embedded && data._embedded.events) {
-        console.log(`Events found for keyword: ${keyword}`);
-        return data._embedded.events.filter((event) => {
-          if (
-            !event.dates ||
-            !event.dates.start ||
-            !event.dates.start.dateTime
-          ) {
-            return false;
-          }
-          const eventDate = new Date(event.dates.start.dateTime).getTime();
-          const start = new Date(startDate).getTime();
-          const end = new Date(endDate).getTime();
-          return eventDate >= start && eventDate <= end;
-        });
-      }
-    } catch (error) {
-      console.error(
-        `Error fetching events for keyword ${keyword}:`,
-        error.message
-      );
-    }
-  }
-
-  console.warn("No specific events found. Falling back to 'events'.");
+async function fetchEvents(lat, lon) {
+  const radius = 60;
   const fallbackUrl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TICKETMASTER_API_KEY}&latlong=${lat},${lon}&radius=${radius}&keyword=events`;
   const fallbackResponse = await fetch(fallbackUrl);
   const fallbackData = await fallbackResponse.json();
@@ -243,18 +190,18 @@ async function fetchEvents(lat, lon, weatherType) {
   return fallbackData._embedded?.events || [];
 }
 
-// Display Events
 function displayEvents(events) {
-  console.log("Events to display: ", events);
+  const eventsSection = document.getElementById("events_section");
+  eventsSection.style.display = "block";
+
   const eventsGrid = document.getElementById("events-grid");
-  eventsGrid.innerHTML = ""; // Clear previous content
+  eventsGrid.innerHTML = "";
 
   if (!events.length) {
     eventsGrid.innerHTML = "<p>No events found for this location.</p>";
     return;
   }
 
-  // Create a scrollable container
   const scrollContainer = document.createElement("div");
   scrollContainer.className = "events-scroll-container";
 
@@ -267,15 +214,19 @@ function displayEvents(events) {
         "https://via.placeholder.com/300x200?text=No+Image"
       }" alt="${event.name || "Event"}" class="event-image">
       <h3>${event.name || "Unknown Event"}</h3>
+      <div class='event_link_text'>
       <p>${
         event.dates?.start?.dateTime
           ? new Date(event.dates.start.dateTime).toLocaleString()
           : "Date not available"
       }</p>
       <p>Location: ${event._embedded?.venues?.[0]?.name || "Unknown Venue"}</p>
+      </div>
+      <div class='event_link_btn'>
       <a href="${
         event.url || "#"
-      }" target="_blank" class="btn_custom">More Info</a>
+      }" target="_blank" class="anchor_custom">More Info</a>
+      </div>
     `;
     eventsGrid.appendChild(eventCard);
   });
@@ -283,7 +234,6 @@ function displayEvents(events) {
   eventsGrid.appendChild(scrollContainer);
 }
 
-// Display playlists in the UI
 function displayPlaylists(playlists) {
   const playlistSection = document.getElementById("playlists-grid");
   playlistSection.innerHTML = "";
@@ -300,7 +250,6 @@ function displayPlaylists(playlists) {
       !playlist.name ||
       !playlist.external_urls
     ) {
-      console.warn("Skipping invalid playlist:", playlist);
       return;
     }
 
@@ -319,7 +268,6 @@ function displayPlaylists(playlists) {
   });
 }
 
-// Main Event Listener
 const fetchWeatherButton = document.getElementById("fetch_weather");
 fetchWeatherButton.addEventListener("click", async () => {
   const city = document.getElementById("city_input").value;
@@ -331,16 +279,15 @@ fetchWeatherButton.addEventListener("click", async () => {
     const weatherData = await fetchWeather(city);
     const weatherCondition = weatherData.weather[0].main;
 
-    const moods = weatherToMood[weatherCondition] || "happy"; //getting a random mood from the weather condition
-    const mood = moods[Math.floor(Math.random() * moods.length)]; //picking only one mood now
+    const moods = weatherToMood[weatherCondition] || "happy";
+    const mood = moods[Math.floor(Math.random() * moods.length)];
 
     updateBackground(weatherCondition);
     displayWeatherDetails(weatherData);
 
     const playlistSection = document.getElementById("playlist_section");
-    playlistSection.scrollIntoView({ behavior: "smooth", block: "start" }); // Scroll to the top of the playlist section
+    playlistSection.scrollIntoView({ behavior: "smooth", block: "start" });
 
-    // hide carousel
     const carousel = document.getElementById("carouselFade");
     carousel.style.display = "none";
 
@@ -350,12 +297,8 @@ fetchWeatherButton.addEventListener("click", async () => {
     // Fetch and Display Events
     const lat = weatherData.coord.lat;
     const lon = weatherData.coord.lon;
-    const events = await fetchEvents(lat, lon, weatherCondition);
+    const events = await fetchEvents(lat, lon);
     displayEvents(events);
-
-    // Scroll to the Events Section
-    // const eventsSection = document.getElementById("events_section");
-    // eventsSection.scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (error) {
     alert(`Error: ${error.message}`);
   }
@@ -370,14 +313,14 @@ function getMoodForWeather(weatherCondition) {
 //fetching weather details
 function displayWeatherDetails(weatherData) {
   const weatherCondition = weatherData.weather[0].description;
-  const temperature = (weatherData.main.temp - 273.15).toFixed(1); // Convert Kelvin to Celsius
-  const feelsLike = (weatherData.main.feels_like - 273.15).toFixed(1); // Kelvin to Celsius
+  const temperature = (weatherData.main.temp - 273.15).toFixed(1);
+  const feelsLike = (weatherData.main.feels_like - 273.15).toFixed(1);
   const humidity = weatherData.main.humidity;
   const windSpeed = weatherData.wind.speed;
 
   //upate the weather_info section
   document.getElementById("weather_info").innerHTML = `
-    <h3>Weather Details</h3>
+  <div class='weather_details_list'>
     <ul>
       <li><strong>Condition:</strong> ${weatherCondition}</li>
       <li><strong>Temperature:</strong> ${temperature}°C</li>
@@ -385,6 +328,7 @@ function displayWeatherDetails(weatherData) {
       <li><strong>Humidity:</strong> ${humidity}%</li>
       <li><strong>Wind Speed:</strong> ${windSpeed} m/s</li>
     </ul>
+  </div>
   `;
 }
 

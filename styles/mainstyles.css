@@ -20,6 +20,20 @@ body {
   width: auto;
 }
 
+.anchor_custom {
+  margin-top: 1rem;
+  padding: 0.7rem 1.5rem;
+  background: #7e1891;
+  border: none;
+  color: white !important;
+  cursor: pointer;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  border-radius: 2rem;
+  width: auto;
+  text-decoration: none;
+}
+
 .mainContainer {
   display: flex;
   flex-direction: column;
@@ -206,8 +220,11 @@ header {
 }
 
 .event-card {
-  flex: 0 0 calc(25% - 1rem); /* 4 tiles in view */
-  max-width: calc(25% - 1rem); /* Adjust width to fit 4 tiles */
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 calc(25% - 1rem);
+  max-width: calc(20% - 1rem);
+  min-width: auto;
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -216,6 +233,8 @@ header {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   scroll-snap-align: center;
   transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #ffffff;
+  background-image: linear-gradient(135deg, #ffffff 0%, #f76b1c 100%);
 }
 
 .event-card:hover {
@@ -224,31 +243,29 @@ header {
 }
 
 .event-card h3 {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-family: "Lato", sans-serif;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 0.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 1.5rem;
+  margin-top: 0.25rem;
 }
 
 .event-card p {
   font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 0.5rem;
+  color: white;
+  margin-bottom: 0.25rem;
+  margin-top: 0.25rem;
+  line-height: 1rem;
 }
 
-.event-card a {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 0.9rem;
+.event_link_text {
+  margin-bottom: 2rem;
+}
+
+.event_link_btn {
+  margin-bottom: 1rem;
+  margin-top: auto;
 }
 
 .event-card a:hover {
@@ -269,12 +286,12 @@ header {
 }
 
 .events-scroll-container::-webkit-scrollbar-thumb {
-  background: #cccccc;
+  background: rgb(235, 110, 43);
   border-radius: 4px;
 }
 
 .events-scroll-container::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: white;
 }
 
 /* Playlist Section */
@@ -289,6 +306,7 @@ header {
     #2bd2ff 52%,
     #2bff88 90%
   );
+  z-index: 5;
 }
 
 #playlist_section h2 {
@@ -435,6 +453,24 @@ footer p {
   flex-direction: column;
 }
 
+.weather_details_list {
+  padding: 1rem;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 2rem;
+  letter-spacing: 0.1rem;
+  font-family: "Lato", sans-serif;
+  background-color: rgb(235, 110, 43);
+  transform: rotateZ(0deg) translateY(2rem);
+  border-radius: 0.5rem;
+}
+
+.weather_details_list ul {
+  list-style: none;
+  margin-bottom: 0;
+}
+
 .left_col {
   position: relative;
 }
@@ -547,25 +583,45 @@ p {
 
 .scrollTopBtnDiv {
   position: fixed;
-  width: 100%;
-  height: 100%;
+  z-index: 10;
 }
 
 .scrollTopBtn {
   display: none;
-  position: absolute;
+  position: fixed;
   bottom: 2rem;
   right: 2rem;
   border-radius: 1rem;
-  border: none;
-  background-color: #00c6ff;
+  border: 1px solid #7e1891;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.75rem;
-  color: white;
+  color: #7e1891;
   font-size: 1rem;
   font-weight: 700;
+}
+
+#events_section {
+  z-index: 5;
+  display: none;
+  padding: 2rem;
+  height: 40rem;
+  background-color: #d9afd9;
+  background-image: linear-gradient(0deg, #d9afd9 0%, #97d9e1 100%);
+}
+
+#events_section h2 {
+  font-size: 4.5rem;
+  font-family: "Bangers", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  color: rgb(235, 110, 43);
+  text-align: center;
+  width: 100%;
+  margin-top: 2rem;
+  text-align: left;
 }
 
 /* ------------------ Responsive Data based on breakpoints ------------------- */
@@ -573,6 +629,11 @@ p {
   /* ---- Header/Navbar Section ---- */
   .navbar_custom {
     width: "100%";
+  }
+
+  .nav-link {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .btn_custom {
@@ -593,8 +654,11 @@ p {
     display: none;
   }
 
-  /* ---- Playlist Section ---- */
   #playlist_section h2 {
     font-size: 3rem;
+  }
+
+  .event-card {
+    min-width: 18rem;
   }
 }
